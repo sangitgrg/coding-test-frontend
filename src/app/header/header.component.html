@@ -1,0 +1,17 @@
+<div ngbDropdown class="d-inline-block" id="dropdownBasic">
+  <button id="dropdownBtn" class="btn btn-outline-primary" ngbDropdownToggle>
+    {{ userFullName }}
+    <i style="margin-left: 10px">
+      <fa-icon [icon]="faUser"></fa-icon>
+    </i>
+  </button>
+  <div ngbDropdownMenu>
+    <button (click)="onLogOutClick()" ngbDropdownItem>Log Out</button>
+    <button *ngIf="isAdmin" (click)="onUserClick()" ngbDropdownItem>
+      Users
+    </button>
+    <button *ngIf="isAdmin" (click)="onReviewClick()" ngbDropdownItem>
+      Reviews
+    </button>
+  </div>
+</div>

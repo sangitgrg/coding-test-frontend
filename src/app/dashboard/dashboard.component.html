@@ -1,0 +1,100 @@
+<app-header></app-header>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Reviwer Name</th>
+      <th scope="col">Rate</th>
+      <th scope="col">FeedBack</th>
+      <th scope="col">Got Reviewed</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let review of listOfReview; index as i">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>
+        {{ review.reviewerName }}
+      </td>
+      <td>
+        <ngb-rating [(rate)]="review.point" [readonly]="true"></ngb-rating>
+      </td>
+      <td>{{ review.feedBack }}</td>
+      <td>{{ review.gotReviewedName }}</td>
+      <td>
+        <fa-icon
+          style="padding: 10px; cursor: pointer"
+          [icon]="faEdit"
+          (click)="onEditClick(content, review)"
+          ngbTooltip="click to edit review"
+        ></fa-icon>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="form">
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="rate" class="text-info">Rate</label>
+        <input
+          formControlName="rate"
+          class="form-control"
+          type="number"
+          min="1"
+          max="10"
+          name="rate"
+          maxlength="2"
+          required
+        />
+        <div
+          *ngIf="f.rate.touched && f.rate.invalid"
+          class="alert alert-danger"
+        >
+          <div *ngIf="f.rate.errors?.required">Rate is required</div>
+          <div *ngIf="f.rate.errors?.maxLength">
+            Rate cannot be more than 10
+          </div>
+          <div *ngIf="f.rate.errors?.minLength">Rate cannot be less than 1</div>
+        </div>
+        <br />
+      </div>
+      <div class="form-group">
+        <label for="feedback" class="text-info">Feedback</label
+        ><input
+          formControlName="feedBack"
+          name="feedback"
+          required
+          type="text"
+          class="form-control"
+        />
+        <br />
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="form-group">
+        <button
+          (click)="submit()"
+          [ngClass]="form.valid ? 'btn btn-primary' : 'btn btn-secondary'"
+          name="submit"
+          [disabled]="!form.valid"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  </form>
+</ng-template>

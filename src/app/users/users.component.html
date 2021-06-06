@@ -1,0 +1,63 @@
+<app-header></app-header>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Full Name</th>
+      <th scope="col">Age</th>
+      <th scope="col">Sex</th>
+      <th scope="col">Is Admin</th>
+      <th scope="col">Created Date</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users; index as i">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>
+        {{ user.fullName }}
+      </td>
+      <td>
+        {{ user.age }}
+      </td>
+      <td>{{ user.sex }}</td>
+      <td>{{ user.isAdmin ? "Yes" : "No" }}</td>
+      <td>{{ user.createdDate | date }}</td>
+      <td>
+        <fa-icon
+          style="margin-right: 10px; cursor: pointer"
+          [icon]="faEdit"
+          (click)="onEditClick()"
+          ngbTooltip="click to edit user"
+        ></fa-icon>
+        <fa-icon
+          style="cursor: pointer"
+          [icon]="faTrash"
+          (click)="onTrashClick()"
+          ngbTooltip="click to delete user"
+        ></fa-icon>
+        <fa-icon
+          style="margin-left: 10px; cursor: pointer"
+          [icon]="faUserCog"
+          (click)="onUserAssign(assignContent)"
+          ngbTooltip="click to assign for review"
+        ></fa-icon>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ng-template #assignContent let-modal>
+  <div class="modal-body">
+    <div ngbDropdown container="body" class="d-inline-block">
+      <button class="btn btn-outline-primary" ngbDropdownToggle>
+        Select user
+      </button>
+      <div class="dropdown-menu" ngbDropdownMenu *ngFor="let user of users">
+        <button ngbDropdownItem (click)="assignUser(user)">
+          {{ user.fullName }}
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

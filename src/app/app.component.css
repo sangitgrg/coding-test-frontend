@@ -1,0 +1,17 @@
+.dropdown-toggle::after {
+  display: none;
+}
+
+#dropdownBasic {
+  background-color: #02f3e7;
+  height: 50px;
+  width: 100%;
+  float: right;
+  padding-top: 5px;
+  padding-right: 10px;
+}
+
+#dropdownBtn {
+  float: right;
+  border: none;
+}
