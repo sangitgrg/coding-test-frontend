@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { ApiService } from '../api.service';
 import { ReviewModal } from '../modal/review-modal';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DashboardService {
+export class ReviewService {
   constructor(private apiService: ApiService) {}
 
   getAllReviewsForAdmin() {

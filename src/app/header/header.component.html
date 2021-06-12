@@ -7,11 +7,12 @@
   </button>
   <div ngbDropdownMenu>
     <button (click)="onLogOutClick()" ngbDropdownItem>Log Out</button>
-    <button *ngIf="isAdmin" (click)="onUserClick()" ngbDropdownItem>
-      Users
+    <button (click)="viewUserAssignedToMe()" ngbDropdownItem>
+      Employee Assigned to me
     </button>
-    <button *ngIf="isAdmin" (click)="onReviewClick()" ngbDropdownItem>
-      Reviews
-    </button>
+    <ng-template [ngIf]="isAdmin">
+      <button (click)="onUserClick()" ngbDropdownItem>Users</button>
+      <button (click)="onReviewClick()" ngbDropdownItem>Reviews</button>
+    </ng-template>
   </div>
 </div>

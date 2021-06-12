@@ -1,26 +1,41 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from './auth/auth.guard.service';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
+import { MainComponent } from './main/main.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { ReviewComponent } from './review/review.component';
 import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  {
+    path: 'login',
+    component: LoginComponent,
+  },
   {
     path: '',
-    component: DashboardComponent,
-    canActivate: [AuthGuardService],
-  },
-  {
-    path: 'dashboard',
-    component: DashboardComponent,
-    canActivate: [AuthGuardService],
-  },
-  {
-    path: 'users',
-    component: UsersComponent,
-    canActivate: [AuthGuardService],
+    component: MainComponent,
+    children: [
+      {
+        path: '',
+        component: ReviewComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'review',
+        component: ReviewComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: '**',
+        component: NotFoundComponent,
+      },
+    ],
   },
 ];
 

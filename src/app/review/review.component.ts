@@ -1,18 +1,17 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { JwtHelperService } from '@auth0/angular-jwt';
-
-import { DashboardService } from './dashboard.service';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ReviewModal } from '../modal/review-modal';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ReviewService } from './review.service';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css'],
+  selector: 'app-review',
+  templateUrl: './review.component.html',
+  styleUrls: ['./review.component.css'],
 })
-export class DashboardComponent implements OnInit {
+export class ReviewComponent implements OnInit {
   faEdit = faEdit;
   faTrash = faTrash;
   active = 1;
@@ -28,7 +27,7 @@ export class DashboardComponent implements OnInit {
     feedBack: new FormControl(),
   });
   constructor(
-    private dashboardService: DashboardService,
+    private dashboardService: ReviewService,
     private jwtHelper: JwtHelperService,
     private modalService: NgbModal
   ) {}
