@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { ReviewModal } from '../modal/review-modal';
+import { ReviewModal } from '../model/review-model';
 import { ReviewService } from './review.service';
 
 @Component({
@@ -79,7 +79,7 @@ export class ReviewComponent implements OnInit {
     this.dashboardService
       .updateReview(this.reviewModal.id, this.reviewModal)
       .subscribe((res) => {
-        this.getAllEmployeeListToReview();
+        this.loadDashboard();
         this.modalService.dismissAll();
       });
   }

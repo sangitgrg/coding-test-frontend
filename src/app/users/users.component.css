@@ -2,7 +2,12 @@
   background-color: #5cb3fd;
 }
 
-.modal-body {
+.user-assign {
   text-align: center;
-  overflow: hidden;
+  overflow: visible;
+}
+
+.custom-font-size {
+  font-size: small;
+  white-space: nowrap;
 }

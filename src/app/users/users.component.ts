@@ -3,6 +3,8 @@ import { UsersService } from './users.service';
 import { faEdit, faTrash, faUserCog } from '@fortawesome/free-solid-svg-icons';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UserModel } from '../model/user-model';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'app-users',
@@ -13,30 +15,39 @@ export class UsersComponent implements OnInit {
   faEdit = faEdit;
   faTrash = faTrash;
   faUserCog = faUserCog;
-  users: any = [];
-
+  user: UserModel = new UserModel();
+  users: UserModel[] = [];
+  dropdownSettings: IDropdownSettings = {};
   constructor(
     private userService: UsersService,
     private modalService: NgbModal
   ) {}
 
-  userlist = [
-    {
-      fullName: 'Test',
-      id: '11',
-    },
-    {
-      fullName: 'Test2',
-      id: '22',
-    },
-  ];
-
   form = new FormGroup({
-    user: new FormControl('', [Validators.required]),
+    firstName: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(50),
+    ]),
+    lastName: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(50),
+    ]),
+    age: new FormControl('', [Validators.required, Validators.max(50)]),
+    sex: new FormControl('', [Validators.required, Validators.max(10)]),
+    isAdmin: new FormControl(),
+    email: new FormControl('', [Validators.required, Validators.max(100)]),
   });
-
   ngOnInit(): void {
     this.getAllUsers();
+    this.dropdownSettings = {
+      singleSelection: false,
+      idField: 'userId',
+      textField: 'userFullName',
+      selectAllText: 'Select All',
+      unSelectAllText: 'UnSelect All',
+      itemsShowLimit: 3,
+      allowSearchFilter: false,
+    };
   }
 
   getAllUsers() {
@@ -45,11 +56,26 @@ export class UsersComponent implements OnInit {
     });
   }
 
-  onEditClick() {}
+  onEditClick(content: any, user: UserModel) {
+    const modalRef = this.modalService.open(content, {
+      backdropClass: 'light-blue-backdrop',
+    });
+    this.form.patchValue({
+      email: user.email,
+      age: user.age,
+      sex: user.sex,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      isAdmin: user.isAdmin,
+    });
+    this.user.id = user.id;
+  }
 
-  onTrashClick() {
+  onTrashClick(user: any) {
     if (confirm('Are you sure to delete ')) {
-      console.log('Implement delete functionality here');
+      this.userService.deleteUser(user.id).subscribe((res) => {
+        this.users = this.users.filter((x) => x.id !== user.id);
+      });
     }
   }
 
@@ -61,9 +87,31 @@ export class UsersComponent implements OnInit {
     const modalRef = this.modalService.open(assignContent, {
       backdropClass: 'light-blue-backdrop',
       size: 'sm',
-      centered: true,
-      scrollable: true,
     });
+  }
+
+  submit() {
+    this.user.firstName = this.form.value.firstName;
+    this.user.lastName = this.form.value.lastName;
+    this.user.sex = this.form.value.sex;
+    this.user.email = this.form.value.email;
+    this.user.isAdmin = this.form.value.isAdmin;
+    this.user.age = this.form.value.age;
+    this.user.createdDate = new Date();
+    this.userService.updateUser(this.user).subscribe(
+      (res: UserModel) => {
+        const itemIndex = this.users.findIndex((x) => x.id === this.user.id);
+        this.users[itemIndex] = res;
+        this.modalService.dismissAll();
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+
+  onSelect(event: any) {
+    console.log(event);
   }
 
   get f() {

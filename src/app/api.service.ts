@@ -22,13 +22,15 @@ export class ApiService {
   }
 
   create(endpoint: string = '', api_model: any) {
-    this.http
-      .post(`${this.apiUrl}/${endpoint}`, JSON.stringify(api_model), {
+    return this.http.post(
+      `${this.apiUrl}/${endpoint}`,
+      JSON.stringify(api_model),
+      {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
-      })
-      .subscribe((res) => console.log(res));
+      }
+    );
   }
 
   update(endpoint: string = '', api_model: any) {
@@ -44,8 +46,6 @@ export class ApiService {
   }
 
   delete(endpoint: string = '') {
-    this.http
-      .delete(`${this.apiUrl}/${endpoint}`)
-      .subscribe((res) => console.log(res));
+    return this.http.delete(`${this.apiUrl}/${endpoint}`);
   }
 }

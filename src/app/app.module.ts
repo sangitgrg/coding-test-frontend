@@ -15,6 +15,8 @@ import { UsersComponent } from './users/users.component';
 import { MainComponent } from './main/main.component';
 import { ReviewComponent } from './review/review.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { UsersAssignedComponent } from './users-assigned/users-assigned.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -29,6 +31,7 @@ export function tokenGetter() {
     MainComponent,
     ReviewComponent,
     NotFoundComponent,
+    UsersAssignedComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,6 +41,7 @@ export function tokenGetter() {
     FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
+    NgMultiSelectDropDownModule.forRoot(),
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
