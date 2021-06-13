@@ -30,7 +30,7 @@ export class AuthService {
           localStorage.setItem('jwt', (<any>res).token);
           const role = this.jwtHelper.decodeToken(tk).Role;
           localStorage.setItem('userId', this.jwtHelper.decodeToken(tk).ID);
-          this.route.navigate(['dashboard']);
+          this.route.navigate(['review']);
         },
         (err) => {
           alert(err.error.title);

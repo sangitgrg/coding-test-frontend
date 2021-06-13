@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.decodedToken = <any>localStorage.getItem('jwt');
-    if (this.decodedToken !== '') {
+    if (this.decodedToken) {
       const name = this.jwtHelper.decodeToken(this.decodedToken).Name;
       this.userFullName = name;
       const role = this.jwtHelper.decodeToken(this.decodedToken).Role;
@@ -42,6 +42,10 @@ export class HeaderComponent implements OnInit {
   }
 
   onReviewClick() {
-    this.route.navigate(['dashboard']);
+    this.route.navigate(['review']);
+  }
+
+  viewUserAssignedToMe() {
+    this.route.navigate(['userassigned']);
   }
 }

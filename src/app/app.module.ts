@@ -10,9 +10,11 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 import { AuthGuardService } from './auth/auth.guard.service';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeaderComponent } from './header/header.component';
 import { UsersComponent } from './users/users.component';
+import { MainComponent } from './main/main.component';
+import { ReviewComponent } from './review/review.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 export function tokenGetter() {
   return localStorage.getItem('jwt');
@@ -22,9 +24,11 @@ export function tokenGetter() {
   declarations: [
     AppComponent,
     LoginComponent,
-    DashboardComponent,
     HeaderComponent,
     UsersComponent,
+    MainComponent,
+    ReviewComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
