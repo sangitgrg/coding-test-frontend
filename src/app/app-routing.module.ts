@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { ReviewComponent } from './review/review.component';
+import { UsersAssignedComponent } from './users-assigned/users-assigned.component';
 import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
@@ -29,6 +30,11 @@ const routes: Routes = [
       {
         path: 'users',
         component: UsersComponent,
+        canActivate: [AuthGuardService],
+      },
+      {
+        path: 'userassigned',
+        component: UsersAssignedComponent,
         canActivate: [AuthGuardService],
       },
       {

@@ -7,6 +7,7 @@
       <th scope="col">Sex</th>
       <th scope="col">Is Admin</th>
       <th scope="col">Created Date</th>
+      <th scope="col">Assign Employee</th>
       <th scope="col"></th>
     </tr>
   </thead>
@@ -14,7 +15,7 @@
     <tr *ngFor="let user of users; index as i">
       <th scope="row">{{ i + 1 }}</th>
       <td>
-        {{ user.fullName }}
+        {{ user.userFullName }}
       </td>
       <td>
         {{ user.age }}
@@ -23,23 +24,27 @@
       <td>{{ user.isAdmin ? "Yes" : "No" }}</td>
       <td>{{ user.createdDate | date }}</td>
       <td>
+        <ng-multiselect-dropdown
+          class="custom-font-size"
+          [settings]="dropdownSettings"
+          [data]="users"
+          [(ngModel)]="user.assigned_Dtos"
+          (onSelect)="onSelect($event)"
+        >
+        </ng-multiselect-dropdown>
+      </td>
+      <td>
         <fa-icon
           style="margin-right: 10px; cursor: pointer"
           [icon]="faEdit"
-          (click)="onEditClick()"
+          (click)="onEditClick(editContent, user)"
           ngbTooltip="click to edit user"
         ></fa-icon>
         <fa-icon
           style="cursor: pointer"
           [icon]="faTrash"
-          (click)="onTrashClick()"
+          (click)="onTrashClick(user)"
           ngbTooltip="click to delete user"
-        ></fa-icon>
-        <fa-icon
-          style="margin-left: 10px; cursor: pointer"
-          [icon]="faUserCog"
-          (click)="onUserAssign(assignContent)"
-          ngbTooltip="click to assign for review"
         ></fa-icon>
       </td>
     </tr>
@@ -47,16 +52,145 @@
 </table>
 
 <ng-template #assignContent let-modal>
-  <div class="modal-body">
+  <div class="modal-body user-assign" id="user-assign">
     <div ngbDropdown container="body" class="d-inline-block">
-      <button class="btn btn-outline-primary" ngbDropdownToggle>
+      <button
+        class="btn btn-outline-primary"
+        ngbDropdownToggle
+        data-dropdown=""
+      >
         Select user
       </button>
       <div class="dropdown-menu" ngbDropdownMenu *ngFor="let user of users">
         <button ngbDropdownItem (click)="assignUser(user)">
-          {{ user.fullName }}
+          {{ user.userFullName }}
         </button>
       </div>
     </div>
   </div>
+</ng-template>
+
+<ng-template #editContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">User update</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="form">
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="firstName" class="text-info">Fist Name</label>
+        <input
+          formControlName="firstName"
+          class="form-control"
+          type="text"
+          name="firstName"
+        />
+        <div
+          *ngIf="f.firstName.touched && f.firstName.invalid"
+          class="alert alert-danger"
+        >
+          <div *ngIf="f.firstName.errors?.maxLength">
+            Frist Name cannot be more than 50
+          </div>
+          <div *ngIf="f.firstName.errors?.required">First Name is required</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lastName" class="text-info">Last Name</label>
+        <input
+          formControlName="lastName"
+          class="form-control"
+          type="text"
+          name="lastName"
+        />
+        <div
+          *ngIf="f.lastName.touched && f.lastName.invalid"
+          class="alert alert-danger"
+        >
+          <div *ngIf="f.lastName.errors?.required">Last Name is required</div>
+          <div *ngIf="f.lastName.errors?.maxLength">
+            Last Name cannot be more than 50
+          </div>
+        </div>
+      </div>
+      <div class="user-edit">
+        <div class="form-group">
+          <label for="age" class="text-info">Age</label
+          ><input
+            formControlName="age"
+            name="age"
+            type="number"
+            class="form-control"
+          />
+          <div
+            *ngIf="f.age.touched && f.age.invalid"
+            class="alert alert-danger"
+          >
+            <div *ngIf="f.age.errors?.required">Age is required</div>
+          </div>
+        </div>
+
+        <label for="sex" class="text-info">Sex</label
+        ><input
+          formControlName="sex"
+          name="sex"
+          type="text"
+          class="form-control"
+        />
+        <div *ngIf="f.sex.touched && f.sex.invalid" class="alert alert-danger">
+          <div *ngIf="f.sex.errors?.required">Age is required</div>
+          <div *ngIf="f.sex.errors?.maxLength">
+            Last Name cannot be more than 10
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email" class="text-info">Email</label
+        ><input
+          formControlName="email"
+          name="email"
+          type="text"
+          class="form-control"
+        />
+        <div
+          *ngIf="f.email.touched && f.email.invalid"
+          class="alert alert-danger"
+        >
+          <div *ngIf="f.email.errors?.required">Email is required</div>
+          <div *ngIf="f.email.errors?.maxLength">
+            Email cannot be more than 50
+          </div>
+        </div>
+      </div>
+      <div class="checkbox">
+        <label>
+          <input
+            style="margin-right: 5px"
+            formControlName="isAdmin"
+            name="isAdmin"
+            type="checkbox"
+          />Is Admin
+        </label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="form-group">
+        <button
+          (click)="submit()"
+          [ngClass]="form.valid ? 'btn btn-primary' : 'btn btn-secondary'"
+          name="submit"
+          [disabled]="!form.valid"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  </form>
 </ng-template>

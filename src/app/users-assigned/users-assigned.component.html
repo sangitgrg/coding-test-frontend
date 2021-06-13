@@ -2,30 +2,30 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col">Reviwer Name</th>
-      <th scope="col">Rate</th>
-      <th scope="col">FeedBack</th>
-      <th scope="col">Got Reviewed</th>
+      <th scope="col">Reviewer Name</th>
+      <th scope="col">Employee Name to be reviewed</th>
+      <th scope="col">Assigned By</th>
+      <th scope="col">Assigned Date</th>
       <th scope="col"></th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let review of listOfReview; index as i">
+    <tr *ngFor="let employee of employeeAssigned; index as i">
       <th scope="row">{{ i + 1 }}</th>
       <td>
-        {{ review.reviewerName }}
+        {{ employee.reviewerName }}
       </td>
       <td>
-        <ngb-rating [(rate)]="review.point" [readonly]="true"></ngb-rating>
+        {{ employee.gotReviewedName }}
       </td>
-      <td>{{ review.feedBack }}</td>
-      <td>{{ review.gotReviewedName }}</td>
+      <td>{{ employee.assignedByName }}</td>
+      <td>{{ employee.assignedDate | date }}</td>
       <td>
         <fa-icon
           style="padding: 10px; cursor: pointer"
-          [icon]="faEdit"
-          (click)="onEditClick(content, review)"
-          ngbTooltip="click to edit review"
+          [icon]="faUsersCog"
+          (click)="onCreateReview(content, employee)"
+          ngbTooltip="click to create review"
         ></fa-icon>
       </td>
     </tr>
@@ -34,7 +34,7 @@
 
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Review update</h4>
+    <h4 class="modal-title" id="modal-basic-title">Review create</h4>
     <button
       type="button"
       class="close"

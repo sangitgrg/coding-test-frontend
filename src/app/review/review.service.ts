@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from '../api.service';
-import { ReviewModal } from '../modal/review-modal';
+import { ReviewModal } from '../model/review-model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +16,10 @@ export class ReviewService {
     return this.apiService.getAll(
       `review/getReviewsAssignedToMe/${localStorage.getItem('userId')}`
     );
+  }
+
+  createreview(review: ReviewModal) {
+    return this.apiService.create(`review/createreview`, review);
   }
 
   updateReview(reviewId: string, reviewModel: ReviewModal) {
